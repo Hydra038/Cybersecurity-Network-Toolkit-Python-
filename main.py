@@ -22,13 +22,18 @@ def run_cli() -> None:
             print(f"Open ports on {host}: {open_ports if open_ports else 'None found'}")
         elif choice == "2":
             info = get_network_info()
-            print(f"Hostname: {info['hostname']}")
-            print(f"IP Address: {info['ip_address']}")
-            print(f"MAC Address: {info['mac_address']}")
+            fields = ("hostname", "ip_address", "mac_address")
+            available_fields = [field for field in fields if info.get(field)]
+            print(f"Network information collected for: {', '.join(available_fields)}")
         elif choice == "3":
             password = input("Enter password: ")
             result = check_password_strength(password)
-            print(f"Password strength: {result['level']} (score: {result['score']}/5)")
+            if result["level"] == "Weak":
+                print("Password strength: Weak")
+            elif result["level"] == "Moderate":
+                print("Password strength: Moderate")
+            else:
+                print("Password strength: Strong")
         elif choice == "4":
             print("Goodbye!")
             break
